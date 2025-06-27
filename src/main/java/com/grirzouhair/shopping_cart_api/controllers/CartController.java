@@ -7,6 +7,9 @@ import com.grirzouhair.shopping_cart_api.dtos.UpdateCartItemRequest;
 import com.grirzouhair.shopping_cart_api.exceptions.CartNotFoundException;
 import com.grirzouhair.shopping_cart_api.exceptions.ProductNotFoundException;
 import com.grirzouhair.shopping_cart_api.services.CartService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +24,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/carts")
+@Tag(name="Carts")
 public class CartController {
     private final CartService cartService;
 
@@ -34,7 +38,9 @@ public class CartController {
     }
 
     @PostMapping("/{cartId}/items")
+    @Operation(summary = "Add Product To A Cart")
     public ResponseEntity<CartItemDto> addToCart(
+            @Parameter(description = "The Id of the cart")
             @PathVariable UUID cartId,
             @RequestBody AddItemToCartRequest request
             ) {
